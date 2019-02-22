@@ -11,18 +11,16 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
-@EnableWebMvc
 @EnableTransactionManagement
 @PropertySource({"classpath:persistence.properties"})
-@ComponentScan(basePackages = "com.abrahamakam.spring.assignment")
-public class AppConfig {
+@ComponentScan(basePackages = "com.abrahamakam.spring.assignment.persistence")
+public class TestConfig {
 
     private Environment env;
 

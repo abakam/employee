@@ -1,6 +1,7 @@
 package com.abrahamakam.spring.assignment.service;
 
 import com.abrahamakam.spring.assignment.config.AppConfig;
+import com.abrahamakam.spring.assignment.config.TestConfig;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import com.abrahamakam.spring.assignment.persistence.service.EmployeeService;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class EmployeeServiceTest {
 
     @Autowired
