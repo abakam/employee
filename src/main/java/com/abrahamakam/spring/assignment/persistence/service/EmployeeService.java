@@ -1,7 +1,23 @@
 package com.abrahamakam.spring.assignment.persistence.service;
 
-import org.springframework.stereotype.Service;
+import com.abrahamakam.spring.assignment.persistence.model.Employee;
 
-@Service
-public class EmployeeService {
+import java.util.Collection;
+import java.util.Set;
+
+public interface EmployeeService {
+
+    Employee findById(Long id);
+
+    Collection<Employee> findAll();
+
+    Set<Employee> find(String condition);
+
+    void save(Employee employee);
+
+    void delete(Long id);
+
+    int deleteAll();
+
+    Long count();
 }

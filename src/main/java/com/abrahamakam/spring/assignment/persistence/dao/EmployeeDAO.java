@@ -18,4 +18,6 @@ public interface EmployeeDAO {
     void delete(Long id);
 
     Long count();
+
+    int deleteAll();
 }

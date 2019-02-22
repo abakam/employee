@@ -4,6 +4,8 @@ import com.abrahamakam.spring.assignment.persistence.dao.EmployeeDAO;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -12,14 +14,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Repository
+@Transactional
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     private SessionFactory sessionFactory;
+
+    public EmployeeDAOImpl() {
+
+    }
 
     @Override
     public Employee findById(Long id) {
@@ -42,13 +52,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Set<Employee> find(String condition) {
-        return null;
+        // Recipe for SQL injection!!! A better way?
+        Session session = sessionFactory.getCurrentSession();
+
+        String hqlQuery = String.format("FROM %s WHERE %s", Employee.class.getName(), condition);
+
+        Query<Employee> query = session.createQuery(hqlQuery, Employee.class);
+
+        return new HashSet<>(query.getResultList());
     }
 
     @Override
-    @Transactional
     public void save(@NonNull Employee employee) {
-        if (employee.getId() != null) {
+        if (employee.getId() == null) {
             sessionFactory.getCurrentSession().save(employee);
         }
         else {
@@ -57,7 +73,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    @Transactional
     public void delete(@NonNull Long id) {
         Employee employee = findById(id);
 
@@ -78,6 +93,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         Query<Long> query = session.createQuery(criteriaQuery);
         return query.getSingleResult();
+    }
+
+    @Override
+    public int deleteAll() {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery(String.format("DELETE FROM %s", Employee.class.getName()));
+        return query.executeUpdate();
     }
 
     @Autowired

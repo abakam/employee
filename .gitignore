@@ -4,4 +4,6 @@ Employee-Spring.iml
 .factorypath
 .classpath
 .project
+*.log
 target/
+employeeDB
