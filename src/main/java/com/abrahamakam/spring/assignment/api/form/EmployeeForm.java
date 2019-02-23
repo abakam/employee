@@ -80,9 +80,18 @@ public class EmployeeForm {
     }
 
     public void copy(Employee employee, EmployeeForm form) {
+        employee.setId(form.id);
         employee.setAge(form.age);
         employee.setName(form.name);
         employee.setEmail(form.email);
         employee.setSalary(form.salary);
+    }
+
+    public void copy(EmployeeForm form, Employee employee) {
+        form.id = employee.getId();
+        form.age = employee.getAge();
+        form.name = employee.getName();
+        form.email = employee.getEmail();
+        form.salary = employee.getSalary();
     }
 }

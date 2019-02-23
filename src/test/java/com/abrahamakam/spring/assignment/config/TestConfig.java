@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({"classpath:persistence.properties"})
-@ComponentScan(basePackages = "com.abrahamakam.spring.assignment.persistence")
+@ComponentScan({"com.abrahamakam.spring.assignment.persistence", "com.abrahamakam.spring.assignment.api.controller"})
 public class TestConfig {
 
     private Environment env;

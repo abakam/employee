@@ -1,6 +1,6 @@
-package com.abrahamakam.spring.assignment.service;
+package com.abrahamakam.spring.assignment;
 
-import com.abrahamakam.spring.assignment.config.AppConfig;
+import com.abrahamakam.spring.assignment.api.form.EmployeeForm;
 import com.abrahamakam.spring.assignment.config.TestConfig;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import com.abrahamakam.spring.assignment.persistence.service.EmployeeService;
@@ -12,10 +12,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import static com.abrahamakam.spring.assignment.EmployeeTestUtils.createEmployee;
+import static com.abrahamakam.spring.assignment.EmployeeTestUtils.createEmployees;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,14 +28,18 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
 
     @Before
-    public void cleanUp() {
+    public void setUp() {
         // Clean up the database before each test to avoid errors
         employeeService.deleteAll();
     }
 
     @Test
     public void testSaveEmployee() {
-        Employee employee = createEmployee();
+        Employee employee = new Employee();
+
+        EmployeeForm form = createEmployee();
+        form.copy(employee, form);
+
         employeeService.save(employee);
 
         // Employee should have an id after saving
@@ -47,7 +53,11 @@ public class EmployeeServiceTest {
 
     @Test
     public void testUpdateEmployee() {
-        Employee employee = createEmployee();
+        Employee employee = new Employee();
+
+        EmployeeForm form = createEmployee();
+        form.copy(employee, form);
+
         employeeService.save(employee);
 
         employee.setAge(35);
@@ -58,15 +68,23 @@ public class EmployeeServiceTest {
         // Update
         employeeService.save(employee);
 
-        Employee employee1 = createEmployee();
+        Employee employee1 = new Employee();
+
+        EmployeeForm form1 = createEmployee();
+        form.copy(employee1, form1);
 
         assertNotEquals("New employee is different from updated employee", employee1, employee);
     }
 
     @Test
     public void testFindEmployee() {
-        Collection<Employee> employees = createEmployees();
-        employees.forEach(employee -> employeeService.save(employee));
+        Collection<EmployeeForm> employees = createEmployees();
+        employees.forEach(empForm -> {
+            Employee emp = new Employee();
+            empForm.copy(emp, empForm);
+
+            employeeService.save(emp);
+        });
 
         Set<Employee> employeeSet = employeeService.find("salary < 100050");
         assertEquals("Employees with salaries less than 100050 should be 1", employeeSet.size(), 1);
@@ -80,8 +98,13 @@ public class EmployeeServiceTest {
 
     @Test
     public void testFindAllEmployees() {
-        Collection<Employee> employees = createEmployees();
-        employees.forEach(employee -> employeeService.save(employee));
+        Collection<EmployeeForm> employeesForm = createEmployees();
+        Collection<Employee> employees = employeesForm.stream().map(form -> {
+            Employee employee = new Employee();
+            form.copy(employee, form);
+            return employee;
+        }).collect(Collectors.toList());
+        employees.forEach(emp -> employeeService.save(emp));
 
         Collection<Employee> savedEmployees = employeeService.findAll();
 
@@ -90,39 +113,16 @@ public class EmployeeServiceTest {
 
     @Test
     public void testDeleteEmployee() {
-        Employee employee = createEmployee();
-        employeeService.save(employee);
+        Employee employee = new Employee();
 
+        EmployeeForm form = createEmployee();
+        form.copy(employee, form);
+
+        employeeService.save(employee);
         employeeService.delete(employee.getId());
 
         Employee savedEmp = employeeService.findById(employee.getId());
         assertNull(savedEmp);
-    }
-
-    private static Employee createEmployee() {
-        Employee employee = new Employee();
-        employee.setAge(36);
-        employee.setSalary(120000L);
-        employee.setName("John Doe");
-        employee.setEmail("johndoe@example.com");
-
-        return employee;
-    }
-
-    private static Collection<Employee> createEmployees(){
-        Employee employee1 = new Employee();
-        employee1.setAge(20);
-        employee1.setName("Tope");
-        employee1.setSalary(100000L);
-        employee1.setEmail("tope@example.com");
-
-        Employee employee2 = new Employee();
-        employee2.setAge(21);
-        employee2.setName("Ndubisi");
-        employee2.setSalary(110000L);
-        employee2.setEmail("ndubisi@example.com");
-
-        return Arrays.asList(employee1, employee2);
     }
 }
 

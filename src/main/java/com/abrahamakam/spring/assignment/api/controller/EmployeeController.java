@@ -6,6 +6,8 @@ import com.abrahamakam.spring.assignment.api.form.EmployeeForm;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import com.abrahamakam.spring.assignment.persistence.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,18 +25,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/{employeeId}")
-    public Employee getEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<Employee> getEmployee(@PathVariable Long employeeId) {
         Employee employee = employeeService.findById(employeeId);
 
         if (employee == null) {
             throw new EmployeeNotFoundException("Employee with id not found - " + employeeId);
         }
 
-        return employee;
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @PostMapping("/employee")
-    public Employee addEmployee(@Valid @RequestBody EmployeeForm form) {
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeForm form) {
         Set<Employee> savedEmp = employeeService.find("email = '" + form.getEmail() + "'");
 
         if (!savedEmp.isEmpty()) {
@@ -46,23 +48,23 @@ public class EmployeeController {
 
         employeeService.save(employee);
 
-        return employee;
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @PutMapping("/employee")
-    public Employee updateEmployee(@Valid @RequestBody EmployeeForm form) {
-        Employee savedEmp = getEmployee(form.getId());
+    public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody EmployeeForm form) {
+        Employee savedEmp = getEmployee(form.getId()).getBody();
 
         // Same object. No need for update
         if (form.equals(savedEmp)) {
-            return savedEmp;
+            return new ResponseEntity<>(savedEmp, HttpStatus.OK);
         }
 
         form.copy(savedEmp, form);
 
         employeeService.save(savedEmp);
 
-        return savedEmp;
+        return new ResponseEntity<>(savedEmp, HttpStatus.OK);
     }
 
     @DeleteMapping("/employee/{employeeId}")
