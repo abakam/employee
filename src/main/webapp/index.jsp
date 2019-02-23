@@ -124,7 +124,7 @@
             'salary': +document.getElementById('salary').value
         };
 
-        if (id != '') {
+        if (id !== '') {
             method = 'PUT';
             employee['id'] = +id;
         }
@@ -139,7 +139,7 @@
     function listEmployee() {
         let empId = document.getElementById('empId').value;
 
-        if (empId != '') {
+        if (empId !== '') {
             makeXMLHttpRequestImpl(url + '/employee/' + empId, {}, {}, 'GET', r => {
                 document.getElementById('result').innerText = r;
             }, e => {
@@ -159,7 +159,7 @@
     function deleteEmployee() {
         let empId = document.getElementById('deleteId').value;
 
-        if (empId != '') {
+        if (empId !== '') {
             makeXMLHttpRequestImpl(url + '/employee/' + empId, {}, {}, 'DELETE', r => {
                 document.getElementById('result').innerText = r;
             }, e => {
@@ -177,8 +177,8 @@
 
         let xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
-        xhr.send(JSON.stringify(body));
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(body));
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
@@ -189,7 +189,12 @@
                 }
                 else if (xhr.status >= 300) {
                     if (errorCallback != null) {
-                        errorCallback(xhr.statusText);
+                        if (xhr.response !== '') {
+                            errorCallback(JSON.parse(xhr.response).message);
+                        }
+                        else {
+                            errorCallback(xhr.statusText);
+                        }
                     }
                 }
                 else {

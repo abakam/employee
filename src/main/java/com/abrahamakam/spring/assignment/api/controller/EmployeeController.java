@@ -2,11 +2,13 @@ package com.abrahamakam.spring.assignment.api.controller;
 
 import com.abrahamakam.spring.assignment.api.exception.EmployeeException;
 import com.abrahamakam.spring.assignment.api.exception.EmployeeNotFoundException;
+import com.abrahamakam.spring.assignment.api.form.EmployeeForm;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import com.abrahamakam.spring.assignment.persistence.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Set;
 
@@ -32,13 +34,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee")
-    public Employee addEmployee(@RequestBody Employee employee) {
-        employee.setId(null);
+    public Employee addEmployee(@Valid @RequestBody EmployeeForm form) {
+        Set<Employee> savedEmp = employeeService.find("email = '" + form.getEmail() + "'");
 
-        Set<Employee> savedEmp = employeeService.find("email = '" + employee.getEmail() + "'");
         if (!savedEmp.isEmpty()) {
-            throw new EmployeeException("Employee with email already exists - " + employee.getEmail());
+            throw new EmployeeException("Employee with email already exists - " + form.getEmail());
         }
+
+        Employee employee = new Employee();
+        form.copy(employee, form);
 
         employeeService.save(employee);
 
@@ -46,22 +50,26 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee")
-    public Employee updateEmployee(@RequestBody Employee employee) {
-        Employee savedEmp = getEmployee(employee.getId());
+    public Employee updateEmployee(@Valid @RequestBody EmployeeForm form) {
+        Employee savedEmp = getEmployee(form.getId());
 
         // Same object. No need for update
-        if (savedEmp.equals(employee)) {
-            return employee;
+        if (form.equals(savedEmp)) {
+            return savedEmp;
         }
 
-        employeeService.save(employee);
+        form.copy(savedEmp, form);
 
-        return employee;
+        employeeService.save(savedEmp);
+
+        return savedEmp;
     }
 
     @DeleteMapping("/employee/{employeeId}")
     public Long deleteEmployee(@PathVariable Long employeeId) {
+        getEmployee(employeeId);
         employeeService.delete(employeeId);
+
         return employeeId;
     }
 
