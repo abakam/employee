@@ -33,8 +33,6 @@ public class EmployeeControllerTest {
     @Autowired
     private EmployeeController controller;
 
-    private Validator validator;
-
     @Before
     public void setUp() {
         // Clean up the database before each test to avoid errors
