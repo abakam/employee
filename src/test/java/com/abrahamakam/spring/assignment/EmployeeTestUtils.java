@@ -1,6 +1,7 @@
 package com.abrahamakam.spring.assignment;
 
 import com.abrahamakam.spring.assignment.api.form.EmployeeForm;
+import com.abrahamakam.spring.assignment.persistence.model.Employee;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +14,7 @@ class EmployeeTestUtils {
         employee.setSalary(120000L);
         employee.setName("John Doe");
         employee.setEmail("johndoe@example.com");
+        employee.setGender(Employee.Gender.MALE.name());
 
         return employee;
     }
@@ -23,12 +25,14 @@ class EmployeeTestUtils {
         employee1.setName("Tope");
         employee1.setSalary(100000L);
         employee1.setEmail("tope@example.com");
+        employee1.setGender(Employee.Gender.FEMALE.name());
 
         EmployeeForm employee2 = new EmployeeForm();
         employee2.setAge(21);
         employee2.setName("Ndubisi");
         employee2.setSalary(110000L);
         employee2.setEmail("ndubisi@example.com");
+        employee2.setGender(Employee.Gender.MALE.name());
 
         return Arrays.asList(employee1, employee2);
     }

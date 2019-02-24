@@ -45,7 +45,7 @@ public class EmployeeServiceTest {
         // Employee should have an id after saving
         assertNotNull("Saved employee must have an id", employee.getId());
 
-        assertEquals("Employee id must be 1", employee.getId().longValue(), 1L);
+//        assertEquals("Employee id must be 1", employee.getId().longValue(), 1L);
 
         Employee savedEmp = employeeService.findById(employee.getId());
         assertEquals("Saved employee must equal same fetched employee", savedEmp, employee);

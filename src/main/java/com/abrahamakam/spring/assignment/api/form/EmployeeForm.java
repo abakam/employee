@@ -27,6 +27,9 @@ public class EmployeeForm {
     @Min(value = 1, message = "Minimum salary is 1")
     private Long salary;
 
+    @NotNull(message = "Gender cannot be null")
+    private String gender;
+
     public Long getId() {
         return id;
     }
@@ -67,6 +70,15 @@ public class EmployeeForm {
         this.salary = salary;
     }
 
+    @NotNull
+    public Employee.Gender getGender() {
+        return Employee.Gender.valueOf(gender);
+    }
+
+    public void setGender(@NotNull String gender) {
+        this.gender = gender;
+    }
+
     public boolean equals(Employee employee) {
         if (employee == null) {
             return false;
@@ -85,6 +97,7 @@ public class EmployeeForm {
         employee.setName(form.name);
         employee.setEmail(form.email);
         employee.setSalary(form.salary);
+        employee.setGender(form.getGender());
     }
 
     public void copy(EmployeeForm form, Employee employee) {
@@ -93,5 +106,6 @@ public class EmployeeForm {
         form.name = employee.getName();
         form.email = employee.getEmail();
         form.salary = employee.getSalary();
+        form.gender= employee.getGender().name();
     }
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table
+@Table(name = "employee")
 public class Employee implements Serializable {
 
     @Id
@@ -35,6 +35,12 @@ public class Employee implements Serializable {
             nullable = false
     )
     private Long salary = 0L;
+
+    @Column(
+            nullable = false
+    )
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     public Long getId() {
         return id;
@@ -76,6 +82,14 @@ public class Employee implements Serializable {
         this.salary = salary;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,5 +112,13 @@ public class Employee implements Serializable {
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (salary != null ? salary.hashCode() : 0);
         return result;
+    }
+
+    public enum Gender {
+
+        MALE,
+
+        FEMALE
+
     }
 }

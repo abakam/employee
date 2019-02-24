@@ -51,6 +51,17 @@
                     </tr>
                     <tr>
                         <td>
+                            <label>
+                                Enter Gender
+                                <select id="gender">
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <input type="button" value="Submit" onclick="addEmployee()">
                         </td>
                     </tr>
@@ -121,7 +132,8 @@
             'age': +document.getElementById('age').value,
             'name': document.getElementById('name').value,
             'email': document.getElementById('email').value,
-            'salary': +document.getElementById('salary').value
+            'salary': +document.getElementById('salary').value,
+            'gender': document.getElementById('gender').value
         };
 
         if (id !== '') {
@@ -131,7 +143,7 @@
 
         makeXMLHttpRequestImpl(url + '/employee', {}, employee, method, r => {
             document.getElementById('result').innerText = r;
-        }, e => {
+    }, e => {
             document.getElementById('result').innerText = e;
         });
     }
@@ -142,7 +154,7 @@
         if (empId !== '') {
             makeXMLHttpRequestImpl(url + '/employee/' + empId, {}, {}, 'GET', r => {
                 document.getElementById('result').innerText = r;
-            }, e => {
+        }, e => {
                 document.getElementById('result').innerText = e;
             });
         }
@@ -151,7 +163,7 @@
     function listEmployees() {
         makeXMLHttpRequestImpl(url + '/employees', {}, {}, 'GET', r => {
             document.getElementById('result').innerText = r;
-        }, e => {
+    }, e => {
             document.getElementById('result').innerText = e;
         });
     }
@@ -162,7 +174,7 @@
         if (empId !== '') {
             makeXMLHttpRequestImpl(url + '/employee/' + empId, {}, {}, 'DELETE', r => {
                 document.getElementById('result').innerText = r;
-            }, e => {
+        }, e => {
                 document.getElementById('result').innerText = e;
             });
         }
@@ -171,7 +183,7 @@
     function makeXMLHttpRequestImpl(url, params, body, method, successCallback, errorCallback) {
         let queryParams = Object.keys(params).map(key => {
             return [key, params[key]].map(encodeURIComponent).join("=");
-        }).join("&");
+    }).join("&");
 
         url += queryParams.length > 0 ? '?' + queryParams : '';
 
