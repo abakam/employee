@@ -8,6 +8,7 @@ import com.abrahamakam.spring.assignment.persistence.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,8 +21,11 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public Collection<Employee> getEmployees() {
-        return employeeService.findAll();
+    public Collection<Employee> getEmployees() {  return employeeService.findAll(); }
+
+    @GetMapping("/employees/search")
+    public  Set<Employee> searchEmployees(@RequestParam("query") String query) {
+        return  employeeService.find(query);
     }
 
     @GetMapping("/employee/{employeeId}")

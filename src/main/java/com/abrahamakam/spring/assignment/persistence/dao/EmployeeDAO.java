@@ -5,6 +5,7 @@ import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import java.util.Collection;
 import java.util.Set;
 
+// EmployeeGateWay Interface
 public interface EmployeeDAO {
 
     Employee findById(Long id);

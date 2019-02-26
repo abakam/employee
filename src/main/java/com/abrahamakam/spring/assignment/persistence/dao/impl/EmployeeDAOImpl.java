@@ -19,6 +19,7 @@ import java.util.Set;
 
 @Repository
 @Transactional
+// EmployeeGateWay Implementation
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     private SessionFactory sessionFactory;
@@ -27,11 +28,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     }
 
+    // takes Long and returns Employee instance with ID if it exists
     @Override
     public Employee findById(Long id) {
         return sessionFactory.getCurrentSession().get(Employee.class, id);
     }
 
+    // returns all Employees
     @Override
     public Collection<Employee> findAll() {
         Session session = sessionFactory.getCurrentSession();
@@ -46,6 +49,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return query.getResultList();
     }
 
+    /*
+    * accepts a string parameter where that contains arbitrary condition
+    * (e.g. "email like '%gmail.com and salary < 1000'") and returns Employees set
+    * */
     @Override
     public Set<Employee> find(String condition) {
         // Recipe for SQL injection!!! A better way?
@@ -58,6 +65,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return new HashSet<>(query.getResultList());
     }
 
+    /*
+     * takes Employee instance as a parameter and
+     * if it has an ID assigned it performs update otherwise it performs insert
+     * (use if-else for INSERT or UPDATE) (your table should use ID autoincrement)
+     * */
     @Override
     public void save(@NonNull Employee employee) {
         if (employee.getId() == null) {
@@ -68,6 +80,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         }
     }
 
+
+    // takes Long and removes Employee with ID instance if exists
     @Override
     public void delete(@NonNull Long id) {
         Employee employee = findById(id);
@@ -76,7 +90,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             sessionFactory.getCurrentSession().delete(employee);
         }
     }
-
+    // returns the total number of employees.
     @Override
     public Long count() {
         Session session = sessionFactory.getCurrentSession();
