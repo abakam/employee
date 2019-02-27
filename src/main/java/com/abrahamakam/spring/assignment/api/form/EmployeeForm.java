@@ -76,7 +76,7 @@ public class EmployeeForm {
     }
 
     public void setGender(@NotNull String gender) {
-        this.gender = gender;
+        this.gender = gender.toUpperCase();
     }
 
     public boolean equals(Employee employee) {

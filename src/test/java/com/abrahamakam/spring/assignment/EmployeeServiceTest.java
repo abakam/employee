@@ -20,6 +20,7 @@ import static com.abrahamakam.spring.assignment.EmployeeTestUtils.createEmployee
 import static com.abrahamakam.spring.assignment.EmployeeTestUtils.createEmployees;
 import static org.junit.Assert.*;
 
+// EmployeeGateway service test
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class EmployeeServiceTest {
@@ -45,8 +46,8 @@ public class EmployeeServiceTest {
         // Employee should have an id after saving
         assertNotNull("Saved employee must have an id", employee.getId());
 
-//        assertEquals("Employee id must be 1", employee.getId().longValue(), 1L);
 
+        // Saved Employee must be equal
         Employee savedEmp = employeeService.findById(employee.getId());
         assertEquals("Saved employee must equal same fetched employee", savedEmp, employee);
     }
@@ -123,6 +124,11 @@ public class EmployeeServiceTest {
 
         Employee savedEmp = employeeService.findById(employee.getId());
         assertNull(savedEmp);
+    }
+
+    @Test
+    public void testCountEmployee() {
+
     }
 }
 

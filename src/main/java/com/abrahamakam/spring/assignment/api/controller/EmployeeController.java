@@ -21,14 +21,22 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public Collection<Employee> getEmployees() {  return employeeService.findAll(); }
+    public ResponseEntity<Collection<Employee>> getEmployees() {
+        Collection<Employee> list = employeeService.findAll();
 
-    @GetMapping("/employees/search")
-    public  Set<Employee> searchEmployees(@RequestParam("query") String query) {
-        return  employeeService.find(query);
+        return  ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("/employee/{employeeId}")
+    @GetMapping("/employees/search")
+    public  ResponseEntity<Set<Employee>> searchEmployees(@RequestParam("query") String query) {
+
+        Set<Employee> list = employeeService.find(query);
+
+        return  ResponseEntity.ok().body(list);
+
+    }
+
+    @GetMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Long employeeId) {
         Employee employee = employeeService.findById(employeeId);
 
@@ -39,7 +47,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-    @PostMapping("/employee")
+    @PostMapping("/employees")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeForm form) {
         Set<Employee> savedEmp = employeeService.find("email = '" + form.getEmail() + "'");
 
@@ -55,7 +63,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-    @PutMapping("/employee")
+    @PutMapping("/employees")
     public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody EmployeeForm form) {
         Employee savedEmp = getEmployee(form.getId()).getBody();
 
@@ -71,12 +79,12 @@ public class EmployeeController {
         return new ResponseEntity<>(savedEmp, HttpStatus.OK);
     }
 
-    @DeleteMapping("/employee/{employeeId}")
-    public Long deleteEmployee(@PathVariable Long employeeId) {
-        getEmployee(employeeId);
+    @DeleteMapping("/employees/{employeeId}")
+    public ResponseEntity<Long> deleteEmployee(@PathVariable Long employeeId) {
+
         employeeService.delete(employeeId);
 
-        return employeeId;
+        return new ResponseEntity<>(employeeId, HttpStatus.OK);
     }
 
     @Autowired
