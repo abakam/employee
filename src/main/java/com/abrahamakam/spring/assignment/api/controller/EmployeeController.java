@@ -1,6 +1,7 @@
 package com.abrahamakam.spring.assignment.api.controller;
 
 import com.abrahamakam.spring.assignment.api.exception.EmployeeException;
+import com.abrahamakam.spring.assignment.api.exception.EmployeeInternalServerErrorException;
 import com.abrahamakam.spring.assignment.api.exception.EmployeeNotFoundException;
 import com.abrahamakam.spring.assignment.api.form.EmployeeForm;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -22,69 +24,99 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public ResponseEntity<Collection<Employee>> getEmployees() {
-        Collection<Employee> list = employeeService.findAll();
 
-        return  ResponseEntity.ok().body(list);
+       try {
+           Collection<Employee> list = employeeService.findAll();
+
+           return  ResponseEntity.ok().body(list);
+       }
+        catch (Exception e) {
+            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        }
     }
 
     @GetMapping("/employees/search")
     public  ResponseEntity<Set<Employee>> searchEmployees(@RequestParam("query") String query) {
 
-        Set<Employee> list = employeeService.find(query);
+        try {
+            Set<Employee> list = employeeService.find(query);
 
-        return  ResponseEntity.ok().body(list);
+            return  ResponseEntity.ok().body(list);
+        }
+        catch (Exception e) {
+            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        }
 
     }
 
     @GetMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Long employeeId) {
-        Employee employee = employeeService.findById(employeeId);
+        try {
+            Employee employee = employeeService.findById(employeeId);
 
-        if (employee == null) {
-            throw new EmployeeNotFoundException("Employee with id not found - " + employeeId);
+            if (employee == null) {
+                throw new EmployeeNotFoundException(String.format("Employee with id %s not found", employeeId));
+            }
+
+            return new ResponseEntity<>(employee, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(employee, HttpStatus.OK);
+        catch (Exception e) {
+            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        }
     }
 
     @PostMapping("/employees")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeForm form) {
-        Set<Employee> savedEmp = employeeService.find("email = '" + form.getEmail() + "'");
+        try {
+            Set<Employee> savedEmp = employeeService.find("email = '" + form.getEmail() + "'");
 
-        if (!savedEmp.isEmpty()) {
-            throw new EmployeeException("Employee with email already exists - " + form.getEmail());
+            if (!savedEmp.isEmpty()) {
+                throw new EmployeeException(String.format("Employee with email %s already exists ", form.getEmail()));
+            }
+
+            Employee employee = new Employee();
+            form.copy(employee, form);
+
+            employeeService.save(employee);
+
+            return new ResponseEntity<>(employee, HttpStatus.OK);
         }
-
-        Employee employee = new Employee();
-        form.copy(employee, form);
-
-        employeeService.save(employee);
-
-        return new ResponseEntity<>(employee, HttpStatus.OK);
+        catch (Exception e) {
+            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        }
     }
 
     @PutMapping("/employees")
     public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody EmployeeForm form) {
-        Employee savedEmp = getEmployee(form.getId()).getBody();
+        try {
+            Employee savedEmp = getEmployee(form.getId()).getBody();
 
-        // Same object. No need for update
-        if (form.equals(savedEmp)) {
+            // Same object. No need for update
+            if (form.equals(savedEmp)) {
+                return new ResponseEntity<>(savedEmp, HttpStatus.OK);
+            }
+
+            form.copy(savedEmp, form);
+
+            employeeService.save(savedEmp);
+
             return new ResponseEntity<>(savedEmp, HttpStatus.OK);
         }
-
-        form.copy(savedEmp, form);
-
-        employeeService.save(savedEmp);
-
-        return new ResponseEntity<>(savedEmp, HttpStatus.OK);
+        catch (Exception e) {
+            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        }
     }
 
     @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<Long> deleteEmployee(@PathVariable Long employeeId) {
+        try {
+            employeeService.delete(employeeId);
 
-        employeeService.delete(employeeId);
-
-        return new ResponseEntity<>(employeeId, HttpStatus.OK);
+            return new ResponseEntity<>(employeeId, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        }
     }
 
     @Autowired

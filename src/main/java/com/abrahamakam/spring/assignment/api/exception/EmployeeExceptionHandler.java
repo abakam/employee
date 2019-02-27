@@ -27,6 +27,12 @@ public class EmployeeExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<EmployeeErrorResponse> handleException(EmployeeInternalServerErrorException exc) {
+        EmployeeErrorResponse response = new EmployeeErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), exc.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exc,
                                                                   HttpHeaders headers, HttpStatus status,
