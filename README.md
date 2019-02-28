@@ -30,3 +30,7 @@
   * Expand tomcat7 submenu
   * select tomcat7:run-war
   * Click play icon on Maven Tool bar to run the project on tomcat7 server
+
+# Testing API 
+  After a successful build and run, the app should run on http://localhost:5000. The port can be updated in the pom.xml file within tomcat configuration. Using Postman, the following endpoints can be tested.
+  
