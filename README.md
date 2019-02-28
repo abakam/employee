@@ -1,5 +1,3 @@
-# Employee Record
-  A demonstration of how to build a simple employee record application with Spring MVC using TDD approach
 
 # Tools and Technologies Used
   * Spring MVC - 5.1.0 RELEASE
