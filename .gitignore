@@ -1,6 +1,6 @@
 .idea/
 .settings/
-Employee-Spring.iml
+*.iml
 .factorypath
 .classpath
 .project
