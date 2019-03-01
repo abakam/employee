@@ -75,11 +75,11 @@ public class EmployeeController {
             }
 
             Employee employee = new Employee();
-            form.copy(employee, form);
+            form.copy(form, employee);
 
             employeeService.save(employee);
 
-            return new ResponseEntity<>(employee, HttpStatus.OK);
+            return new ResponseEntity<>(employee, HttpStatus.CREATED);
         }
         catch (Exception e) {
             throw  new EmployeeInternalServerErrorException("Internal Server Error");
@@ -96,11 +96,11 @@ public class EmployeeController {
                 return new ResponseEntity<>(savedEmp, HttpStatus.OK);
             }
 
-            form.copy(savedEmp, form);
+            form.copy(form, savedEmp);
 
             employeeService.save(savedEmp);
 
-            return new ResponseEntity<>(savedEmp, HttpStatus.OK);
+            return new ResponseEntity<>(savedEmp, HttpStatus.CREATED);
         }
         catch (Exception e) {
             throw  new EmployeeInternalServerErrorException("Internal Server Error");

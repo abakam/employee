@@ -40,7 +40,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_GetEmployeeFromFactory_EmployeeIsNotNull() {
+    public void testWhen_getEmployeeFromFactory_employeeIsNotNull() {
         Employee emp = factory.getObject();
 
         assertNotNull(emp);
@@ -54,7 +54,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_SaveEmployee_ReturnEmployeeWithId() {
+    public void testWhen_saveEmployee_returnEmployeeWithId() {
         long id = 1L;
 
         Employee newEmp = factory.getObject();
@@ -92,7 +92,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test(expected = EmployeeException.class)
-    public void testWhen_SaveEmployeeWithNullSalary_ThrowAnEmployeeException() {
+    public void testWhen_saveEmployeeWithNullSalary_throwAnEmployeeException() {
         Employee newEmp = factory.getObject();
         newEmp.setSalary(null);
 
@@ -102,7 +102,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_SaveEmployee_VerifyValueSaved() {
+    public void testWhen_saveEmployee_verifyValueSaved() {
         Long id = 10L;
 
         Employee newEmp = factory.getObject();
@@ -122,7 +122,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_FindEmployeeWithIdExist_ReturnEmployee() {
+    public void testWhen_findEmployeeWithIdExist_returnEmployee() {
         Employee savedEmp = factory.getObject();
         savedEmp.setId(10L);
 
@@ -134,7 +134,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_FindEmployeeWithIdNotExist_ReturnNull() {
+    public void testWhen_findEmployeeWithIdNotExist_returnNull() {
         when(dao.findById(anyLong())).thenReturn(null);
 
         Employee employee = dao.findById(10L);
@@ -143,7 +143,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_DeleteEmployee_FindEmployeeByIdShouldBeNull() {
+    public void testWhen_deleteEmployee_findEmployeeByIdShouldBeNull() {
         long id = 10L;
 
         doNothing().when(dao).delete(id);
@@ -158,7 +158,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_FindAllEmployees_EmployeesShouldMatch() {
+    public void testWhen_findAllEmployees_employeesShouldMatch() {
         /*
          * Generate Employee objects from the Employee object factory
          */
@@ -182,7 +182,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_RecordsAreSaved_TheirCountShouldMatch() {
+    public void testWhen_recordsAreSaved_theirCountShouldMatch() {
         List<Employee> employeeList = Stream.generate(factory::getObject)
                                             .limit(10)
                                             .collect(Collectors.toList());
@@ -215,7 +215,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_FindEmployeeWithEmail_ReturnEmployees() {
+    public void testWhen_findEmployeeWithEmail_returnEmployees() {
         Employee emp = factory.getObject();
 
         String condition = "email = '" + emp.getEmail() + "'";
@@ -226,7 +226,7 @@ public class EmployeeDAOUnitTest {
     }
 
     @Test
-    public void testWhen_FindEmployeeOlderThan20Years_ReturnEmployees() {
+    public void testWhen_findEmployeeOlderThan20Years_returnEmployees() {
         String condition = "age > 20";
 
         Set<Employee> employeesOlderThan20Years = Stream.generate(factory::getObject)

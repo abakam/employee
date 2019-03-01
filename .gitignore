@@ -6,4 +6,5 @@
 .project
 *.log
 target/
-employeeDB
+employeeDB/
+employeeTestDB/

@@ -8,6 +8,7 @@
   * IDE - IntelliJ IDEA (ULTIMATE 2018.3)
   * Apache Derby - 10.13.1.1
   * JUnit - 4.12
+  * Mockito-core - 1.10.19
   * Postman
 
 # Setup and Test
@@ -18,11 +19,11 @@
   
   ![myimage-alt-tag](https://cdn-images-1.medium.com/max/1600/1*U_PdPYok-XUT8TJNnETHow.png)
   
-  * On Maven Tool bar, click the cyclic icon highlighted in the image above to update depencies
+  * On Maven Toolbar, click the cyclic icon highlighted in the image above to update dependencies
   * Expand the Lifecycle submenu
   * Select clean
   * Click play icon on Maven Tool bar to run maven clean - to clean the project
-  * Seelect package
+  * Select package
   * Click play icon on Maven Tool bar to run maven package - to create a war file
   * Expand the Plugins submenu
   * Expand tomcat7 submenu

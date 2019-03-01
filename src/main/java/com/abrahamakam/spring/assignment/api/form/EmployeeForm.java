@@ -91,21 +91,21 @@ public class EmployeeForm {
         return salary.equals(employee.getSalary());
     }
 
-    public void copy(Employee employee, EmployeeForm form) {
-        employee.setId(form.id);
-        employee.setAge(form.age);
-        employee.setName(form.name);
-        employee.setEmail(form.email);
-        employee.setSalary(form.salary);
-        employee.setGender(form.getGender());
+    public void copy(EmployeeForm from, Employee to) {
+        to.setId(from.id);
+        to.setAge(from.age);
+        to.setName(from.name);
+        to.setEmail(from.email);
+        to.setSalary(from.salary);
+        to.setGender(from.getGender());
     }
 
-    public void copy(EmployeeForm form, Employee employee) {
-        form.id = employee.getId();
-        form.age = employee.getAge();
-        form.name = employee.getName();
-        form.email = employee.getEmail();
-        form.salary = employee.getSalary();
-        form.gender= employee.getGender().name();
+    public void copy(Employee from, EmployeeForm to) {
+        to.id = from.getId();
+        to.age = from.getAge();
+        to.name = from.getName();
+        to.email = from.getEmail();
+        to.salary = from.getSalary();
+        to.gender= from.getGender().name();
     }
 }

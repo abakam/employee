@@ -12,10 +12,10 @@ public class EmployeeFactory implements FactoryBean<Employee> {
         Random random = new Random();
 
         Employee newEmp = new Employee();
-        newEmp.setAge(random.nextInt() % 30);
+        newEmp.setAge(random.nextInt(MAX) + 15);
         newEmp.setName(NAMES[random.nextInt(MAX)]);
         newEmp.setEmail(EMAILS[random.nextInt(MAX)]);
-        newEmp.setSalary(random.nextInt(MAX) * 2000L);
+        newEmp.setSalary(random.nextInt(MAX) + 2000L);
         newEmp.setGender(random.nextInt() % 2 == 0 ? Employee.Gender.MALE : Employee.Gender.FEMALE);
 
         return newEmp;
