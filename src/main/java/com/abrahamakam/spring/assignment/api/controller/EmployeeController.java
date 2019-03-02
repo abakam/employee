@@ -25,7 +25,7 @@ public class EmployeeController {
     /**
      * Retrieves all saved employees from the database
      *
-     * @return the save demployees
+     * @return the saved employees
      */
     @GetMapping("/employees")
     public ResponseEntity<Collection<Employee>> getEmployees() {
