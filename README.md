@@ -23,6 +23,8 @@
   * Expand the Lifecycle submenu
   * Select clean
   * Click play icon on Maven Tool bar to run maven clean - to clean the project
+  * Select Test
+  * Click play icon on Maven Tool bar to run maven clean - to clean the project
   * Select package
   * Click play icon on Maven Tool bar to run maven package - to create a war file
   * Expand the Plugins submenu
@@ -31,5 +33,28 @@
   * Click play icon on Maven Tool bar to run the project on tomcat7 server
 
 # Testing API 
-  After a successful build and run, the app should run on http://localhost:5000. The port can be updated in the pom.xml file within tomcat configuration. Using Postman, the following endpoints can be tested.
+  After a successful build and run, the app should run on http://localhost:5000 -- baseURL. The port can be updated in the pom.xml file within tomcat configuration. Using Postman or any RESTful API testing tool, the following endpoints can be tested: 
+  ## baseURL/api/v1/employees
+  * GET returns all saved records
+  * POST takes employee record and save to database. Sample payload:
+    ```
+    {
+      "name": "John Doe",
+      "age": 50,
+      "gender": "MALE",
+      "email": "johndoe@example.com",
+      "salary": 1000000
+    }
+    ```
+  * PUT takes employee record with id and update the database if there are changes. Sample payload:
+    ```
+    {
+      "id": 1,
+      "name": "John Doe",
+      "age": 50,
+      "gender": "MALE",
+      "email": "johndoe@example.com",
+      "salary": 1000000
+    }
+    ```
   
