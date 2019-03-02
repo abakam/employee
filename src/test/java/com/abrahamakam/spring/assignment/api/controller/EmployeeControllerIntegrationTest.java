@@ -3,16 +3,10 @@ package com.abrahamakam.spring.assignment.api.controller;
 import com.abrahamakam.spring.assignment.api.form.EmployeeForm;
 import com.abrahamakam.spring.assignment.config.IntegrationTestWebMvcConfig;
 import com.abrahamakam.spring.assignment.factory.EmployeeFactory;
-import com.abrahamakam.spring.assignment.persistence.dao.EmployeeDAO;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +19,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,9 +35,6 @@ public class EmployeeControllerIntegrationTest {
 
     @Autowired
     private EmployeeFactory factory;
-
-    @Autowired
-    private EmployeeDAO dao;
 
     private MockMvc mockMvc;
 

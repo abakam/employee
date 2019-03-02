@@ -122,7 +122,7 @@
 </body>
 
 <script>
-    const url = 'http://localhost:8081/employee';
+    const url = 'http://localhost:5000/employee';
 
     function addEmployee() {
         let method = 'POST';
@@ -141,7 +141,7 @@
             employee['id'] = +id;
         }
 
-        makeXMLHttpRequestImpl(url + '/employee', {}, employee, method, r => {
+        makeXMLHttpRequestImpl(url + '/employees', {}, employee, method, r => {
             document.getElementById('result').innerText = r;
     }, e => {
             document.getElementById('result').innerText = e;
@@ -152,7 +152,7 @@
         let empId = document.getElementById('empId').value;
 
         if (empId !== '') {
-            makeXMLHttpRequestImpl(url + '/employee/' + empId, {}, {}, 'GET', r => {
+            makeXMLHttpRequestImpl(url + '/employees/' + empId, {}, {}, 'GET', r => {
                 document.getElementById('result').innerText = r;
         }, e => {
                 document.getElementById('result').innerText = e;
@@ -172,7 +172,7 @@
         let empId = document.getElementById('deleteId').value;
 
         if (empId !== '') {
-            makeXMLHttpRequestImpl(url + '/employee/' + empId, {}, {}, 'DELETE', r => {
+            makeXMLHttpRequestImpl(url + '/employees/' + empId, {}, {}, 'DELETE', r => {
                 document.getElementById('result').innerText = r;
         }, e => {
                 document.getElementById('result').innerText = e;
@@ -194,7 +194,7 @@
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
+                if (xhr.status >= 200 && xhr.status < 300) {
                     if (successCallback != null) {
                         successCallback(xhr.responseText);
                     }

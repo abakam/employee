@@ -186,7 +186,7 @@ public class EmployeeDAOUnitTest {
     @Test
     public void testWhen_recordsAreSaved_theirCountShouldMatch() {
         List<Employee> employeeList = Stream.generate(factory::getObject)
-                                            .limit(EMPLOYEE_COUNT)
+                                            .limit(EMPLOYEE_COUNT - 3)
                                             .collect(Collectors.toList());
         employeeList.forEach(emp -> {
 
