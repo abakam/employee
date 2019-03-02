@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @RestController
+@RequestMapping("/api/v1")
 public class EmployeeController {
 
     private EmployeeService employeeService;

@@ -124,7 +124,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <path>/employee</path>
+                    <path>/</path>
                     <url>${tomcat.manager.url}</url>
                     <server>TomcatServer</server>
                     <port>5000</port>

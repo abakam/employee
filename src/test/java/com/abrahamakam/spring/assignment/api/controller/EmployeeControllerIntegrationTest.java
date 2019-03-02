@@ -58,12 +58,12 @@ public class EmployeeControllerIntegrationTest {
 
         String formJson = mapper.writeValueAsString(form);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/employees")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employees")
                 .contentType(CONTENT_TYPE).content(formJson))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/employees/1")
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employees/1")
                 .contentType(CONTENT_TYPE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -94,7 +94,7 @@ public class EmployeeControllerIntegrationTest {
 
             String formJson = mapper.writeValueAsString(form);
 
-            this.mockMvc.perform(MockMvcRequestBuilders.post("/employees")
+            this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employees")
                     .contentType(CONTENT_TYPE).content(formJson))
                     .andDo(print())
                     .andExpect(status().isCreated());
@@ -108,7 +108,7 @@ public class EmployeeControllerIntegrationTest {
         int[] results = { 1, 2, 1, 1, 3 };
 
         for (int i = 0; i < EMPLOYEE_COUNT; i++) {
-            MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/employees/search")
+            MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employees/search")
                     .param("query", conditions[i])
                     .contentType(CONTENT_TYPE))
                     .andDo(print())
