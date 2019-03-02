@@ -57,4 +57,13 @@
       "salary": 1000000
     }
     ```
-  
+  ## baseURL/api/v1/employees/{id}
+  * GET returns an employee record with the given id if it exists
+  * DELETE removes an employee record with the given id if it exists
+  ## baseURL/api/v1/employees/search
+  * GET takes parameter query and returns an a list of employees that satisfy the query condition
+  Example: 
+    ```
+    http://localhost:5000/api/v1/employees/search?query=age=27
+    
+    ```
