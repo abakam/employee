@@ -23,6 +23,8 @@
   * Expand the Lifecycle submenu
   * Select clean
   * Click play icon on Maven Tool bar to run maven clean - to clean the project
+  * Select Test
+  * Click play icon on Maven Tool bar to run maven clean - to clean the project
   * Select package
   * Click play icon on Maven Tool bar to run maven package - to create a war file
   * Expand the Plugins submenu
