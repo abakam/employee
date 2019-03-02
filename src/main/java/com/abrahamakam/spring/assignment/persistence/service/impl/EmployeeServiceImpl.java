@@ -16,36 +16,57 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public EmployeeServiceImpl() {}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Employee findById(Long id) {
         return employeeDAO.findById(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<Employee> findAll() {
         return employeeDAO.findAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Employee> find(String condition) {
         return employeeDAO.find(condition);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void save(Employee employee) {
         employeeDAO.save(employee);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(Long id) {
         employeeDAO.delete(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int deleteAll() {
         return employeeDAO.deleteAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Long count() {
         return employeeDAO.count();

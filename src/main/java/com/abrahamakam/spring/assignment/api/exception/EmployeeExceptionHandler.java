@@ -22,12 +22,6 @@ public class EmployeeExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<EmployeeErrorResponse> handleException(EmployeeException exc) {
-        EmployeeErrorResponse response = new EmployeeErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
     public ResponseEntity<EmployeeErrorResponse> handleException(EmployeeInternalServerErrorException exc) {
         EmployeeErrorResponse response = new EmployeeErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), exc.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

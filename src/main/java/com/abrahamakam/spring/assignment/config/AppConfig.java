@@ -26,6 +26,10 @@ public class AppConfig {
 
     private Environment env;
 
+    /**
+     * Creates and returns session factory bean for
+     * accessing the underlying data source.
+     */
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -35,6 +39,9 @@ public class AppConfig {
         return sessionFactory;
     }
 
+    /**
+     * The data source specified in the properties file
+     */
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

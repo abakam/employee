@@ -22,33 +22,53 @@ public class EmployeeController {
 
     private EmployeeService employeeService;
 
+    /**
+     * Retrieves all saved employees from the database
+     *
+     * @return the save demployees
+     */
     @GetMapping("/employees")
     public ResponseEntity<Collection<Employee>> getEmployees() {
 
-       try {
-           Collection<Employee> list = employeeService.findAll();
+        try {
+            Collection<Employee> list = employeeService.findAll();
 
-           return  ResponseEntity.ok().body(list);
-       }
-        catch (Exception e) {
-            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+            return ResponseEntity.ok().body(list);
+        } catch (Exception e) {
+            throw new EmployeeInternalServerErrorException(e.getMessage());
         }
     }
 
+    /**
+     * Retrieves all employees which fulfils the condition specified
+     * in the query.
+     *
+     * @param query the condition to check.
+     *              <br/>Examples:<br/>
+     *              <code>String query = "salary > 2000"</code><br/>
+     *              <code>String query = "age > 20 AND salary = 2000"</code>
+     *
+     * @return the employees which fulfils the condition
+     */
     @GetMapping("/employees/search")
-    public  ResponseEntity<Set<Employee>> searchEmployees(@RequestParam("query") String query) {
+    public ResponseEntity<Set<Employee>> searchEmployees(@RequestParam("query") String query) {
 
         try {
             Set<Employee> list = employeeService.find(query);
 
-            return  ResponseEntity.ok().body(list);
-        }
-        catch (Exception e) {
-            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+            return ResponseEntity.ok().body(list);
+        } catch (Exception e) {
+            throw new EmployeeInternalServerErrorException(e.getMessage());
         }
 
     }
 
+    /**
+     * Retrieves the employee object with the specified id.
+     *
+     * @param employeeId a non integer representing the employee's id
+     * @return the employee with the specified id
+     */
     @GetMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Long employeeId) {
         try {
@@ -59,12 +79,19 @@ public class EmployeeController {
             }
 
             return new ResponseEntity<>(employee, HttpStatus.OK);
-        }
-        catch (Exception e) {
-            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        } catch (Exception e) {
+            throw new EmployeeInternalServerErrorException(e.getMessage());
         }
     }
 
+    /**
+     * Persists an employee object to the database
+     *
+     * @param form the employee form with validation rules which
+     *             contains the employee object to be persisted
+     *
+     * @return the saved employee object with the assigned id
+     */
     @PostMapping("/employees")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeForm form) {
         try {
@@ -80,12 +107,19 @@ public class EmployeeController {
             employeeService.save(employee);
 
             return new ResponseEntity<>(employee, HttpStatus.CREATED);
-        }
-        catch (Exception e) {
-            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        } catch (Exception e) {
+            throw new EmployeeInternalServerErrorException(e.getMessage());
         }
     }
 
+    /**
+     * Updates an employee
+     *
+     * @param form the employee form with validation rules which
+     *             contains the employee object to be updated
+     *
+     * @return the updated employee object
+     */
     @PutMapping("/employees")
     public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody EmployeeForm form) {
         try {
@@ -101,21 +135,28 @@ public class EmployeeController {
             employeeService.save(savedEmp);
 
             return new ResponseEntity<>(savedEmp, HttpStatus.CREATED);
-        }
-        catch (Exception e) {
-            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        } catch (Exception e) {
+            throw new EmployeeInternalServerErrorException(e.getMessage());
         }
     }
 
+    /**
+     * Deletes a saved employee. Deleting an employee that does
+     * not exist does not throw an exception. The <code>employeeId</code>
+     * supplied will be returned regardless.
+     *
+     * @param employeeId the id of the employee to be deleted
+     *
+     * @return the id of the deleted employee.
+     */
     @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<Long> deleteEmployee(@PathVariable Long employeeId) {
         try {
             employeeService.delete(employeeId);
 
             return new ResponseEntity<>(employeeId, HttpStatus.OK);
-        }
-        catch (Exception e) {
-            throw  new EmployeeInternalServerErrorException("Internal Server Error");
+        } catch (Exception e) {
+            throw new EmployeeInternalServerErrorException(e.getMessage());
         }
     }
 

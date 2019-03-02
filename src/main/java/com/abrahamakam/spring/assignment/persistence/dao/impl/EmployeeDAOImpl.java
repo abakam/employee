@@ -17,24 +17,30 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Implementation of the {@link EmployeeDAO} class
+ */
 @Repository
 @Transactional
-// EmployeeGateWay Implementation
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     private SessionFactory sessionFactory;
 
     public EmployeeDAOImpl() {
-
+        // Needed for Spring's autowiring
     }
 
-    // takes Long and returns Employee instance with ID if it exists
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Employee findById(Long id) {
         return sessionFactory.getCurrentSession().get(Employee.class, id);
     }
 
-    // returns all Employees
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<Employee> findAll() {
         Session session = sessionFactory.getCurrentSession();
@@ -49,10 +55,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return query.getResultList();
     }
 
-    /*
-    * accepts a string parameter where that contains arbitrary condition
-    * (e.g. "email like '%gmail.com and salary < 1000'") and returns Employees set
-    * */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Employee> find(String condition) {
         // Recipe for SQL injection!!! A better way?
@@ -65,23 +70,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return new HashSet<>(query.getResultList());
     }
 
-    /*
-     * takes Employee instance as a parameter and
-     * if it has an ID assigned it performs update otherwise it performs insert
-     * (use if-else for INSERT or UPDATE) (your table should use ID autoincrement)
-     * */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void save(@NonNull Employee employee) {
         if (employee.getId() == null) {
             sessionFactory.getCurrentSession().save(employee);
-        }
-        else {
+        } else {
             sessionFactory.getCurrentSession().update(employee);
         }
     }
 
-
-    // takes Long and removes Employee with ID instance if exists
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void delete(@NonNull Long id) {
         Employee employee = findById(id);
@@ -90,7 +93,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             sessionFactory.getCurrentSession().delete(employee);
         }
     }
-    // returns the total number of employees.
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Long count() {
         Session session = sessionFactory.getCurrentSession();
@@ -105,6 +111,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return query.getSingleResult();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int deleteAll() {
         Session session = sessionFactory.getCurrentSession();

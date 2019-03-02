@@ -6,6 +6,7 @@ import com.abrahamakam.spring.assignment.factory.EmployeeFactory;
 import com.abrahamakam.spring.assignment.persistence.dao.EmployeeDAO;
 import com.abrahamakam.spring.assignment.persistence.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,10 +45,6 @@ public class EmployeeControllerIntegrationTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
-
-    public void cleanup() {
-
     }
 
     @Test

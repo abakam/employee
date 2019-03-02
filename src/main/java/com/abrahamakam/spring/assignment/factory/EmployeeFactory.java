@@ -5,6 +5,9 @@ import org.springframework.beans.factory.FactoryBean;
 
 import java.util.Random;
 
+/**
+ * Factory class for creating employee beans (for test)
+ */
 public class EmployeeFactory implements FactoryBean<Employee> {
 
     @Override

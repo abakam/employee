@@ -6,7 +6,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import com.abrahamakam.spring.assignment.api.controller.EmployeeController;
 
+/**
+ * Employee validation form.
+ * Validates all employee data before being passed to
+ * {@link EmployeeController#saveEmployee(EmployeeForm)} or
+ * {@link EmployeeController#updateEmployee(EmployeeForm)}
+ */
 public class EmployeeForm {
 
     private Long id;

@@ -28,6 +28,8 @@ import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = UnitTestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class EmployeeDAOUnitTest {
 
+    private final int EMPLOYEE_COUNT = 10;
+
     @Mock
     private EmployeeDAO dao;
 
@@ -163,7 +165,7 @@ public class EmployeeDAOUnitTest {
          * Generate Employee objects from the Employee object factory
          */
         List<Employee> employeeList = Stream.generate(factory::getObject)
-                                            .limit(10)
+                                            .limit(EMPLOYEE_COUNT)
                                             .collect(Collectors.toList());
 
         /* To prevent reference to employeeList */
@@ -177,14 +179,14 @@ public class EmployeeDAOUnitTest {
         List<Employee> fetchedEmps = new ArrayList<>(dao.findAll());
 
         Stream.iterate(0, i -> i + 1)
-                .limit(10)
+                .limit(EMPLOYEE_COUNT)
                 .forEach(index -> assertEquals(fetchedEmps.get(index), employeeList.get(index)));
     }
 
     @Test
     public void testWhen_recordsAreSaved_theirCountShouldMatch() {
         List<Employee> employeeList = Stream.generate(factory::getObject)
-                                            .limit(10)
+                                            .limit(EMPLOYEE_COUNT)
                                             .collect(Collectors.toList());
         employeeList.forEach(emp -> {
 
@@ -230,7 +232,7 @@ public class EmployeeDAOUnitTest {
         String condition = "age > 20";
 
         Set<Employee> employeesOlderThan20Years = Stream.generate(factory::getObject)
-                .limit(10)
+                .limit(EMPLOYEE_COUNT)
                 .filter(e -> e.getAge() > 20)
                 .collect(Collectors.toSet());
 
